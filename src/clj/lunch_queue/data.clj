@@ -6,7 +6,4 @@
 (defn get-restaurants [] @restaurants)
 
 (defn create-restaurant [info]
-  (log/info @restaurants)
-  (log/info info)
-  (log/info (conj @restaurants info))
   (swap! restaurants conj info))

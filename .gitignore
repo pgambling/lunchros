@@ -12,3 +12,6 @@ pom.xml.asc
 # ignore intellij files
 .idea/
 *.iml
+
+# ignore compiled clojurescript
+cljs.js

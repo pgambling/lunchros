@@ -7,9 +7,15 @@
             [hiccups.runtime :as hiccupsrt]
             [lunch-queue.util :as util]))
 
+(defn create-click [evt]
+  (let [rt-name (jq/val ($ "#rt-name"))
+        rt-address (jq/val ($ "#rt-address"))
+        rt-data {:name rt-name :address rt-address}]
+    (util/log "hello!")
+    (api/create-restaurant rt-data nil)))
+
 (hiccups/defhtml build-restaurants [rts]
   (map (fn [rt] 
-         (util/log rt)
          [:div {:class "rt"}
           [:div [:span "Name: "][:span (:name rt)]]
           [:div [:span "Address: "][:span (:address rt)]]])
@@ -17,6 +23,15 @@
 
 (hiccups/defhtml rt-container []
   [:div {:class "rt-container"}])
+
+(hiccups/defhtml rt-create []
+  [:div {:class "rt-create"}
+   [:div [:span "Name: "][:input {:id "rt-name" :type "text"}]]
+   [:div [:span "Address: "][:input {:id "rt-address" :type "text"}]]
+   [:input {:type "button" :value "Create!" :id "rt-create-btn"}]])
+
+(hiccups/defhtml rt-display []
+  [:div (rt-container) (rt-create)])
 
 (defn fetch-success [resp]
   (reset! data/restaurants (util/json->clj resp)))
@@ -27,8 +42,9 @@
 (add-watch data/restaurants 1 rt-watch)
 
 (defn init []
+  (jq/html ($ "#container") (rt-display))
   (api/fetch-restaurants fetch-success)
-  (jq/html ($ "#container") (rt-container)))
+  (jq/bind ($ "#rt-create-btn") :click create-click))
 
 (set! (.-onload js/window) init)
 

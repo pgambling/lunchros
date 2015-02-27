@@ -9,3 +9,6 @@
   (let [data (if (string? data) (.parse js/JSON data) data)]
     (-> data
         (js->clj :keywordize-keys true))))
+
+(defn stringify [data]
+  (.stringify js/JSON data))

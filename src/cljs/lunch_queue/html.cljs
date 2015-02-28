@@ -5,6 +5,17 @@
             [hiccups.runtime :as hiccupsrt]
             [lunch-queue.util :as util]))
 
+;;------------------------
+;; Begin Utility Functions
+;;------------------------
+(hiccups/defhtml cancel-btn [attrs]
+    [:button 
+     (merge {:type "button" :class "btn btn-default"} attrs)
+     "Cancel"])
+
+;;-------------------------------------
+;; Begin Restaurant Component Functions
+;;-------------------------------------
 (hiccups/defhtml rts [rts] 
   (map (fn [rt] [:tr [:td (:name rt)] [:td (:address rt)]]) rts))
 
@@ -20,14 +31,8 @@
 
 (hiccups/defhtml rt-display []
   [:div {:class "rt-container row"} 
-   [:div {:class "col-md-6"}
-    (rt-table) [:div {:class "rt-action"} (rt-add-btn)]]
+    (rt-table) [:div {:class "rt-action"} (rt-add-btn)]
    (mdl-placeholder)])
-
-(hiccups/defhtml cancel-btn [attrs]
-    [:button 
-     (merge {:type "button" :class "btn btn-default"} attrs)
-     "Cancel"])
 
 ;;------------------------------
 ;; Begin Modal Functions

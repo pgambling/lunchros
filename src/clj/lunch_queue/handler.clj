@@ -17,16 +17,22 @@
 (defn- page-wrapper [& content]
   (html
     [:head
-     [:meta {:http-equiv "Content-type" :content "text/html; charset=utf-8"}]
-     [:link {:rel "stylesheet" :type "text/css" :href "css/style.css"}]
+     [:meta {:http-equiv "Content-type" 
+             :content "text/html; charset=utf-8"}]
+     [:link {:rel "stylesheet" 
+             :type "text/css" 
+             :href "bootstrap/css/bootstrap.min.css"}]
+     [:link {:rel "stylesheet" 
+             :type "text/css" 
+             :href "css/style.css"}]
      [:title "Lunchros"]]
     [:body content]))
 
 (defn- index-page []
   (page-wrapper
-    [:h2 "Lunchros"]
-    [:div {:id "container"}]
+    [:div {:id "container"} [:h2 "Lunchros"]]
     [:script {:src "/js/jquery-2.1.3.min.js"}]
+    [:script {:src "bootstrap/js/bootstrap.min.js"}]
     [:script {:src "/js/cljs.js"}]))
 
 (defroutes app-routes

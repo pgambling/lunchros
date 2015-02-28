@@ -7,20 +7,23 @@
 
 (hiccups/defhtml rts [rts]
   (map (fn [rt] 
-         [:div {:class "rt"}
-          [:div [:span "Name: "][:span (:name rt)]]
-          [:div [:span "Address: "][:span (:address rt)]]])
+         [:div {:class "rt-info"}
+          [:div {:class "rt-attr rt-name"} 
+           [:span "Name: "][:span (:name rt)]]
+          [:div {:class "rt-attr rt-address"} 
+           [:span "Address: "][:span (:address rt)]]])
        rts))
 
-(hiccups/defhtml rt-container []
-  [:div {:class "rt-container"}])
+(hiccups/defhtml rt-list []
+  [:div {:class "rt-list"}])
 
-(hiccups/defhtml rt-create []
+(hiccups/defhtml rt-create-btn []
   [:div {:class "rt-create"}
    [:div [:span "Name: "][:input {:id "rt-name" :type "text"}]]
    [:div [:span "Address: "][:input {:id "rt-address" :type "text"}]]
-   [:input {:type "button" :value "Create!" :id "rt-create-btn"}]])
+   [:input {:type "button" :value "Add Restaurant" :id "rt-create-btn"}]])
 
 (hiccups/defhtml rt-display []
-  [:div (rt-container) (rt-create)])
+  [:div {:class "rt-container"} 
+   (rt-list) (rt-create-btn)])
 

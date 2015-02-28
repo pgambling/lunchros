@@ -19,7 +19,7 @@
       rt-data (fn [res] (api/fetch-restaurants fetch-success)))))
 
 (defn rt-watch [k rests old-val new-val]
-  (jq/html ($ ".rt-container") (html/rts new-val)))
+  (jq/html ($ ".rt-list") (html/rts new-val)))
 
 (add-watch data/restaurants 1 rt-watch)
 

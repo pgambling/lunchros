@@ -13,24 +13,16 @@
    [:thead [:tr [:th "Name"][:th "Address"]]]
    [:tbody {:class "rt-list"}]])
 
-(hiccups/defhtml rt-create-btn []
-  [:div {:class "rt-create"}
-   [:div [:span "Name: "][:input {:id "rt-name" :type "text"}]]
-   [:div [:span "Address: "][:input {:id "rt-address" :type "text"}]]
-   [:button 
-    {:type "button" :id "rt-create-btn" :class "btn btn-success"} 
-    "Add Restaurant"]])
+(hiccups/defhtml rt-add-btn []
+    [:button 
+     {:type "button" :id "rt-add-btn" :class "btn btn-success"} 
+     "Add Restaurant"])
 
 (hiccups/defhtml rt-display []
   [:div {:class "rt-container row"} 
    [:div {:class "col-md-6"}
-    (rt-table) (rt-create-btn)
-    [:button
-     {:type "button" :id "test-button" :class "btn"}
-     "Test"]
-    ]
-   (modal-test)
-   ])
+    (rt-table) [:div {:class "rt-action"} (rt-add-btn)]]
+   (mdl-placeholder)])
 
 (hiccups/defhtml cancel-btn [attrs]
     [:button 
@@ -48,15 +40,14 @@
               :aria-label "close"}
      [:span {:aria-hidden "true"} "&times;"]])
 
-(hiccups/defhtml mdl-head [contents & more] 
-    (conj [:div {:class "modal-header"} (mdl-close-btn)] contents more))
+(hiccups/defhtml mdl-head [& contents] 
+    (conj [:div {:class "modal-header"} (mdl-close-btn)] contents))
 
-(hiccups/defhtml mdl-foot [contents & more] 
-    (conj [:div {:class "modal-footer"}] contents more))
+(hiccups/defhtml mdl-foot [& contents] 
+    (conj [:div {:class "modal-footer"}] contents))
 
-(hiccups/defhtml mdl-body [contents & more]
-    (conj [:div {:class "modal-body"}] contents more))
-
+(hiccups/defhtml mdl-body [& contents]
+    (conj [:div {:class "modal-body"}] contents))
 
 (hiccups/defhtml mdl-cancel-btn []
     (cancel-btn {:data-dismiss "modal"}))
@@ -64,13 +55,13 @@
 (hiccups/defhtml mdl-create-foot []
     (mdl-foot 
          (mdl-cancel-btn)
-         [:button {:type "button" :class "btn btn-primary"} "Create"]))
+         [:button {:type "button" 
+                   :id "modal-create-btn"
+                   :class "btn btn-primary"
+                   :data-dismiss "modal"} 
+          "Create"]))
 
-(hiccups/defhtml modal-test []
-    [:div {:class "modal fade" :id "wat"}
+(hiccups/defhtml mdl-placeholder []
+    [:div {:class "modal fade" :id "modal"}
      [:div {:class "modal-dialog"}
-      [:div {:class "modal-content"}
-       (mdl-head [:h4 {:class "modal-title"} "Test Title"])
-       (mdl-body [:p "Sexy Time"])
-       (mdl-create-foot)
-       ]]])
+      [:div {:class "modal-content"}]]])

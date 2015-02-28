@@ -23,14 +23,30 @@
 
 (add-watch data/restaurants 1 rt-watch)
 
-(defn modal-click [evt]
-  (.modal ($ "#wat") "show"))
+(defn show-modal [] 
+  (.modal ($ "#modal") "show"))
+
+(hiccups/defhtml rt-create-body []
+  [:div {:class "rt-create"}
+    [:div [:span "Name: "][:input {:id "rt-name" :type "text"}]] 
+    [:div [:span "Address: "][:input {:id "rt-address" :type "text"}]]])
+
+(defn build-rt-create-modal []
+  (jq/html ($ "#modal .modal-content") 
+           (hiccups/html 
+             (html/mdl-head [:h4 "Create Restaurant"])
+             (html/mdl-body (rt-create-body))
+             (html/mdl-create-foot)))
+  (jq/bind ($ "#modal-create-btn") :click create-click))
+
+(defn add-rt-click [evt]
+  (build-rt-create-modal)
+  (show-modal))
 
 (defn init []
   (jq/html ($ "#container") (html/rt-display))
   (api/fetch-restaurants fetch-success)
-  (jq/bind ($ "#rt-create-btn") :click create-click)
-  (jq/bind ($ "#test-button") :click modal-click)
+  (jq/bind ($ "#rt-add-btn") :click add-rt-click)
   )
 
 (set! (.-onload js/window) init)

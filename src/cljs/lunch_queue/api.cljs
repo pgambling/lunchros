@@ -13,6 +13,9 @@
 
 (def ajax-post (merge ajax-defaults {:type "POST"}))
 
+(defn- ajax-json [data] 
+  {:data (util/stringify (clj->js data)) :dataType "json"})
+
 (defn- get-url [] (.-href (.-location js/window)))
 
 (defn- restaurant-url [] (str (get-url) "api/restaurants"))
@@ -22,7 +25,4 @@
 
 (defn create-restaurant [data success-fn]
   (jq/ajax (restaurant-url) 
-           (merge ajax-post {:success success-fn 
-                             :data (util/stringify (clj->js data))
-                             :dataType "json"
-                             })))
+           (merge ajax-post {:success success-fn } (ajax-json data))))

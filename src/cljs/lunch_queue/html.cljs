@@ -5,25 +5,24 @@
             [hiccups.runtime :as hiccupsrt]
             [lunch-queue.util :as util]))
 
-(hiccups/defhtml rts [rts]
-  (map (fn [rt] 
-         [:div {:class "rt-info"}
-          [:div {:class "rt-attr rt-name"} 
-           [:span "Name: "][:span (:name rt)]]
-          [:div {:class "rt-attr rt-address"} 
-           [:span "Address: "][:span (:address rt)]]])
-       rts))
+(hiccups/defhtml rts [rts] 
+  (map (fn [rt] [:tr [:td (:name rt)] [:td (:address rt)]]) rts))
 
-(hiccups/defhtml rt-list []
-  [:div {:class "rt-list"}])
+(hiccups/defhtml rt-table []
+  [:table {:class "table"}
+   [:thead [:tr [:th "Name"][:th "Address"]]]
+   [:tbody {:class "rt-list"}]])
 
 (hiccups/defhtml rt-create-btn []
   [:div {:class "rt-create"}
    [:div [:span "Name: "][:input {:id "rt-name" :type "text"}]]
    [:div [:span "Address: "][:input {:id "rt-address" :type "text"}]]
-   [:input {:type "button" :value "Add Restaurant" :id "rt-create-btn"}]])
+   [:button 
+    {:type "button" :id "rt-create-btn" :class "btn btn-success"} 
+    "Add Restaurant"]])
 
 (hiccups/defhtml rt-display []
-  [:div {:class "rt-container"} 
-   (rt-list) (rt-create-btn)])
+  [:div {:class "rt-container row"} 
+   [:div {:class "col-md-6"}
+   (rt-table) (rt-create-btn)]])
 

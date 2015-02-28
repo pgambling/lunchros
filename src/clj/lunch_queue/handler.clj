@@ -30,7 +30,7 @@
 
 (defn- index-page []
   (page-wrapper
-    [:div {:id "container"} [:h2 "Lunchros"]]
+    [:div {:id "container" :class "container"}]
     [:script {:src "/js/jquery-2.1.3.min.js"}]
     [:script {:src "bootstrap/js/bootstrap.min.js"}]
     [:script {:src "/js/cljs.js"}]))

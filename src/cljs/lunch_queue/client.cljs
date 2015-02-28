@@ -24,9 +24,7 @@
 (add-watch data/restaurants 1 rt-watch)
 
 (defn modal-click [evt]
-  (util/log "hello")
-  (.modal ($ "#wat") "show")
-  )
+  (.modal ($ "#wat") "show"))
 
 (defn init []
   (jq/html ($ "#container") (html/rt-display))

@@ -32,6 +32,15 @@
    (modal-test)
    ])
 
+(hiccups/defhtml cancel-btn [attrs]
+    [:button 
+     (merge {:type "button" :class "btn btn-default"} attrs)
+     "Cancel"])
+
+;;------------------------------
+;; Begin Modal Functions
+;;------------------------------
+
 (hiccups/defhtml mdl-close-btn []
     [:button {:type "button" 
               :class "close" 
@@ -40,7 +49,7 @@
      [:span {:aria-hidden "true"} "&times;"]])
 
 (hiccups/defhtml mdl-head [contents & more] 
-    (conj [:div {:class "modal-header"}] contents more))
+    (conj [:div {:class "modal-header"} (mdl-close-btn)] contents more))
 
 (hiccups/defhtml mdl-foot [contents & more] 
     (conj [:div {:class "modal-footer"}] contents more))
@@ -48,18 +57,20 @@
 (hiccups/defhtml mdl-body [contents & more]
     (conj [:div {:class "modal-body"}] contents more))
 
+
+(hiccups/defhtml mdl-cancel-btn []
+    (cancel-btn {:data-dismiss "modal"}))
+
+(hiccups/defhtml mdl-create-foot []
+    (mdl-foot 
+         (mdl-cancel-btn)
+         [:button {:type "button" :class "btn btn-primary"} "Create"]))
+
 (hiccups/defhtml modal-test []
     [:div {:class "modal fade" :id "wat"}
      [:div {:class "modal-dialog"}
       [:div {:class "modal-content"}
-       (mdl-head 
-            (mdl-close-btn) 
-            [:h4 {:class "modal-title"} "Test Title"])
+       (mdl-head [:h4 {:class "modal-title"} "Test Title"])
        (mdl-body [:p "Sexy Time"])
-       (mdl-foot 
-        [:button 
-         {:type "button" 
-          :class "btn btn-primary" 
-          :data-dismiss "modal"}
-         "Coolio"])]]])
-
+       (mdl-create-foot)
+       ]]])

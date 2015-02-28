@@ -39,19 +39,14 @@
               :aria-label "close"}
      [:span {:aria-hidden "true"} "&times;"]])
 
-;(hiccups/defhtml mdl-head [contents] 
-    ;[:div {:class "modal-header"} contents ])
-
 (hiccups/defhtml mdl-head [contents & more] 
-    (util/log contents)
-    (util/log more)
     (conj [:div {:class "modal-header"}] contents more))
 
-(hiccups/defhtml mdl-foot [contents] 
-    [:div {:class "modal-footer"} contents ])
+(hiccups/defhtml mdl-foot [contents & more] 
+    (conj [:div {:class "modal-footer"}] contents more))
 
-(hiccups/defhtml mdl-body [contents]
-    [:div {:class "modal-body"} contents])
+(hiccups/defhtml mdl-body [contents & more]
+    (conj [:div {:class "modal-body"}] contents more))
 
 (hiccups/defhtml modal-test []
     [:div {:class "modal fade" :id "wat"}
@@ -60,29 +55,11 @@
        (mdl-head 
             (mdl-close-btn) 
             [:h4 {:class "modal-title"} "Test Title"])
-       [:div {:class "modal-body"}
-        [:p "Sexy Time"]]
-       [:div {:class "modal-footer"}
+       (mdl-body [:p "Sexy Time"])
+       (mdl-foot 
         [:button 
          {:type "button" 
           :class "btn btn-primary" 
           :data-dismiss "modal"}
-         "Coolio"]]]]])
-
-;(hiccups/defhtml modal-test []
-    ;[:div {:class "modal fade" :id "wat"}
-     ;[:div {:class "modal-dialog"}
-      ;[:div {:class "modal-content"}
-       ;[:div {:class "modal-header"}
-        ;(mdl-close-btn)
-        ;[:h4 {:class "modal-title"} "Test Title"]]
-       ;[:div {:class "modal-body"}
-        ;[:p "Sexy Time"]]
-       ;[:div {:class "modal-footer"}
-        ;[:button 
-         ;{:type "button" 
-          ;:class "btn btn-primary" 
-          ;:data-dismiss "modal"}
-         ;"Coolio"]]]]])
-
+         "Coolio"])]]])
 

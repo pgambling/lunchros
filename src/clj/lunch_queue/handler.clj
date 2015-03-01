@@ -48,3 +48,6 @@
   (route/not-found "Not Found"))
 
 (def app app-routes)
+
+(defn init []
+  (log/info (System/getProperty "user.dir")))

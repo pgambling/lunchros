@@ -17,14 +17,16 @@
 ;; Begin Restaurant Component Functions
 ;;-------------------------------------
 (hiccups/defhtml rt-table-row [rt]
-    [:tr [:td (:name rt)] [:td (:address rt)]])
+    [:tr [:td (:id rt)] [:td (:name rt)] [:td (:address rt)] 
+     [:td [:button {:type "button" :class "close" :aria-label "close" }
+           [:span {:aria-hidden "true"} "&times;"]]]])
 
 (hiccups/defhtml rts [rts] 
   (map rt-table-row rts))
 
 (hiccups/defhtml rt-table []
-  [:table {:class "table"}
-   [:thead [:tr [:th "Name"][:th "Address"]]]
+  [:table {:class "table" :id "rt-table"}
+   [:thead [:tr [:th "#"][:th "Name"][:th "Address"] [:td]]]
    [:tbody {:class "rt-list"}]])
 
 (hiccups/defhtml rt-add-btn []
@@ -34,7 +36,7 @@
 
 (hiccups/defhtml rt-display []
   [:div {:class "rt-container row"} 
-    (rt-table) [:div {:class "rt-action"} (rt-add-btn)]
+   (rt-table) [:div {:class "rt-action"} (rt-add-btn)]
    (mdl-placeholder)])
 
 ;;------------------------------

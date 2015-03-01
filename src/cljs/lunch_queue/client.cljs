@@ -43,10 +43,26 @@
   (build-rt-create-modal)
   (show-modal))
 
+(defn rt-row-click [evt]
+  (let [row ($ (.-currentTarget evt))
+        btn (.find ($ row) "button")
+        target ($ (.-target evt))
+        btn-target? (.is target "button")
+        ; how do you test for parents contains?
+        btn-parent? (-> target
+                      (.parents "button")
+                      (.size)
+                      (= 1))
+        btn-click? (or btn-target? btn-parent?)]
+
+    (if btn-click? (util/log "clicked"))
+    ))
+
 (defn init []
   (jq/html ($ "#container") (html/rt-display))
   (api/fetch-restaurants fetch-success)
   (jq/bind ($ "#rt-add-btn") :click add-rt-click)
+  (jq/on ($ "#rt-table tbody") :click "tr" nil rt-row-click)
   )
 
 (set! (.-onload js/window) init)

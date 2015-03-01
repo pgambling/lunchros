@@ -34,7 +34,8 @@
     }
    }
 
-  :ring {:handler lunch-queue.handler/app}
+  :ring {:handler lunch-queue.handler/app
+         :init lunch-queue.handler/init}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring-mock "0.1.5"]]}})

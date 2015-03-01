@@ -10,6 +10,10 @@
 (defroutes api-routes
     (GET "/users" [] { :body { :key "value"} })
     (GET "/restaurants" [] { :body (data/get-restaurants)} )
+    (GET "/restaurants/:id" [id] 
+         { :body (data/get-restaurant (Integer/parseInt id)) })
+    (DELETE "/restaurants/:id" [id] 
+            (data/delete-restaurant (Integer/parseInt id)) {:status 204})
     (POST "/restaurants" {body :body}
           (data/create-restaurant (select-keys body [:name :address]))
           {:body (data/get-restaurants)}))

@@ -16,8 +16,11 @@
 ;;-------------------------------------
 ;; Begin Restaurant Component Functions
 ;;-------------------------------------
+(hiccups/defhtml rt-table-row [rt]
+    [:tr [:td (:name rt)] [:td (:address rt)]])
+
 (hiccups/defhtml rts [rts] 
-  (map (fn [rt] [:tr [:td (:name rt)] [:td (:address rt)]]) rts))
+  (map rt-table-row rts))
 
 (hiccups/defhtml rt-table []
   [:table {:class "table"}

@@ -26,7 +26,7 @@
 
 (hiccups/defhtml rt-add-btn []
     [:button 
-     {:type "button" :id "rt-add-btn" :class "btn btn-success"} 
+     {:type "button" :id "rt-add-btn" :class "btn btn-primary"} 
      "Add Restaurant"])
 
 (hiccups/defhtml rt-display []

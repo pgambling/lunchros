@@ -6,33 +6,34 @@
 (def ajax-defaults
   {:accepts "application/json"
    :contentType "application/json; charset=UTF-8"
+   :dataType "json"
    :traditional true
    :cache false})
 
-(def ajax-get (merge ajax-defaults {:type "GET"}))
-
-(def ajax-post (merge ajax-defaults {:type "POST"}))
-
-(def ajax-del (merge ajax-defaults {:type "DELETE"}))
-
 (defn- ajax-json [data] 
-  {:data (util/stringify (clj->js data)) :dataType "json"})
+  (util/stringify (clj->js data)))
 
 (defn- get-url [] (.-href (.-location js/window)))
 
-(defn- restaurant-url 
-  ([] (str (get-url) "api/restaurants"))
-  ([id] (str (restaurant-url) "/" id)))
+(def restaurant-url "api/restaurants")
 
-(defn get-restaurants [id success-fn]
- (jq/ajax (restaurant-url id) (merge ajax-get {:success success-fn})))
+(defn get-restaurant [id success-fn]
+ (jq/ajax (str restaurant-url "/" id) 
+          (assoc ajax-defaults :type "GET"
+                               :success success-fn)))
 
-(defn fetch-restaurants [success-fn]
- (jq/ajax (restaurant-url) (merge ajax-get {:success success-fn})))
+(defn get-restaurants [success-fn]
+ (jq/ajax restaurant-url
+          (assoc ajax-defaults :type "GET"
+                               :success success-fn)))
 
 (defn create-restaurant [data success-fn]
   (jq/ajax (restaurant-url) 
-           (merge ajax-post {:success success-fn } (ajax-json data))))
+           (assoc ajax-defaults :type "POST"
+                                :success success-fn
+                                :data (ajax-json data))))
 
 (defn delete-restaurant [id success-fn]
- (jq/ajax (restaurant-url id) (merge ajax-del {:success success-fn})))
+ (jq/ajax (restaurant-url id) 
+          (assoc :type "DELETE"
+                 :success success-fn)))

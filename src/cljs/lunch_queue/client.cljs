@@ -12,16 +12,15 @@
   (reset! data/restaurants (util/json->clj resp)))
 
 (defn refresh-restaurants []
-  (api/fetch-restaurants fetch-success))
+  (api/get-restaurants fetch-success))
 
 (defn create-click [evt]
   (let [rt-name (jq/val ($ "#rt-name"))
         rt-address (jq/val ($ "#rt-address"))
         rt-data {:name rt-name :address rt-address}]
-    (api/create-restaurant 
-      rt-data (fn [res] (api/fetch-restaurants fetch-success)))))
+    (api/create-restaurant rt-data refresh-restaurants)))
 
-(defn rt-watch [k rests old-val new-val]
+(defn rt-watch [_ _ _ new-val]
   (jq/html ($ ".rt-list") (html/rts new-val)))
 
 (add-watch data/restaurants 1 rt-watch)
@@ -46,31 +45,16 @@
   (build-rt-create-modal)
   (show-modal))
 
-(defn rt-row-click [evt]
+(defn remove-rt-click [evt]
   (let [tr (.-currentTarget evt)
         row-idx (.-rowIndex tr)
-        rt-id (:id (@data/restaurants (dec row-idx)))
-        row ($ (.-currentTarget evt))
-        btn (.find ($ row) "button")
-        target ($ (.-target evt))
-        btn-target? (.is target "button")
-        ; how do you test for parents contains?
-        btn-parent? (-> target
-                      (.parents "button")
-                      (.size)
-                      (= 1))
-        btn-click? (or btn-target? btn-parent?)]
-
-    (if btn-click? 
-      (api/delete-restaurant rt-id (fn [res] (refresh-restaurants))))
-    ))
+        rt-id (:id (@data/restaurants (dec row-idx)))]
+    (api/delete-restaurant rt-id refresh-restaurants)))
 
 (defn init []
   (jq/html ($ "#container") (html/rt-display))
-  (api/fetch-restaurants fetch-success)
+  (refresh-restaurants)
   (jq/bind ($ "#rt-add-btn") :click add-rt-click)
-  (jq/on ($ "#rt-table tbody") :click "tr" nil rt-row-click)
-  )
+  (jq/on ($ "#rt-table") :click ".remove-rt-btn" remove-rt-click))
 
-(set! (.-onload js/window) init)
-
+(jq/document-ready init)

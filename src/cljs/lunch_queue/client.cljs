@@ -11,6 +11,9 @@
 (defn fetch-success [resp]
   (reset! data/restaurants (util/json->clj resp)))
 
+(defn refresh-restaurants []
+  (api/fetch-restaurants fetch-success))
+
 (defn create-click [evt]
   (let [rt-name (jq/val ($ "#rt-name"))
         rt-address (jq/val ($ "#rt-address"))
@@ -44,7 +47,10 @@
   (show-modal))
 
 (defn rt-row-click [evt]
-  (let [row ($ (.-currentTarget evt))
+  (let [tr (.-currentTarget evt)
+        row-idx (.-rowIndex tr)
+        rt-id (:id (@data/restaurants (dec row-idx)))
+        row ($ (.-currentTarget evt))
         btn (.find ($ row) "button")
         target ($ (.-target evt))
         btn-target? (.is target "button")
@@ -55,7 +61,8 @@
                       (= 1))
         btn-click? (or btn-target? btn-parent?)]
 
-    (if btn-click? (util/log "clicked"))
+    (if btn-click? 
+      (api/delete-restaurant rt-id (fn [res] (refresh-restaurants))))
     ))
 
 (defn init []

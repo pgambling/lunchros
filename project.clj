@@ -10,7 +10,7 @@
                  [hiccup "1.0.4"]
                  ; begin clojure script dependencies
                  [org.clojure/clojurescript "0.0-2913"]
-                 [jayq "2.4.0"]
+                 [jayq "2.5.4"]
                  [hiccups "0.3.0"]]
 
   :plugins [[lein-ring "0.8.13"]

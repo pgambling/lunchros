@@ -5,6 +5,8 @@
             [hiccups.runtime :as hiccupsrt]
             [lunch-queue.util :as util]))
 
+(declare mdl-placeholder)
+
 ;;------------------------
 ;; Begin Utility Functions
 ;;------------------------
